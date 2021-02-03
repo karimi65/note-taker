@@ -1,9 +1,10 @@
 const path = require('path')
-const http = require('http')
 const fs = require('fs')
 const express = require('express')
 const app = express()
 const PORT = process.env.PORT || 3500
+const { v4: uuidv4 } = require('uuid');
+
 
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
@@ -23,10 +24,17 @@ app.get('/api/notes', (req, res) => {
 })
 
 app.post('/api/notes', (req, res) => {
+
     const newNote = req.body
-    console.log(newNote)
-    notes.push(newNote)
-    res.json(newNote)
+    newNote.id = uuidv4();
+
+    fs.readFile('./db/db.json', 'utf8', (err, data) => {
+        const updateData = JSON.parse(data).concat(newNote)
+
+        fs.writeFile('./db/db.json', JSON.stringify(updateData), (err, data) => {
+            res.json({ "name": "true" })
+        })
+    })
 })
 
 
