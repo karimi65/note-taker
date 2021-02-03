@@ -22,7 +22,12 @@ app.get('/api/notes', (req, res) => {
     res.sendFile(path.join(__dirname + './db/db.json'))
 })
 
-
+app.post('/api/notes', (req, res) => {
+    const newNote = req.body
+    console.log(newNote)
+    notes.push(newNote)
+    res.json(newNote)
+})
 
 
 
