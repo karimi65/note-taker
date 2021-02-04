@@ -9,6 +9,8 @@ const { v4: uuidv4 } = require('uuid');
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 
+app.use(express.static('public'))
+
 // HTML ROUTES
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname + '/public/index.html'))
@@ -20,9 +22,10 @@ app.get('/notes', (req, res) => {
 
 // API ROUTES
 app.get('/api/notes', (req, res) => {
-    res.sendFile(path.join(__dirname + './db/db.json'))
+    res.sendFile(path.join(__dirname + '/db/db.json'))
 })
 
+// post data
 app.post('/api/notes', (req, res) => {
 
     const newNote = req.body
@@ -37,6 +40,9 @@ app.post('/api/notes', (req, res) => {
     })
 })
 
+
+// delete data
+app.delete('/api/notes')
 
 
 
