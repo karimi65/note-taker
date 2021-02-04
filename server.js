@@ -42,8 +42,18 @@ app.post('/api/notes', (req, res) => {
 
 
 // delete data
-app.delete('/api/notes')
-
+app.delete('/api/notes/:id', (req, res) => {
+    fs.readFile('./db/db.json', 'utf8', (err, data) => {
+        let noteId = req.params.id
+        const updateData = JSON.parse(data)
+        const filteredData = updateData.filter(note => {
+            return note.id != noteId
+        })
+        fs.writeFile('./db/db.json', JSON.stringify(filteredData), (err, data) => {
+            res.json({ "name": "true" })
+        })
+    })
+})
 
 
 app.listen(PORT, () => {
